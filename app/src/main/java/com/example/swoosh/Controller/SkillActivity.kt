@@ -2,6 +2,7 @@ package com.example.swoosh.Controller
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import android.widget.Toast
 import com.example.swoosh.Model.Player
@@ -13,6 +14,11 @@ class SkillActivity : BaseActivity() {
 
     lateinit var player : Player
 
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState?.putParcelable(EXTRA_PLAYER,player)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_skill)
@@ -20,12 +26,19 @@ class SkillActivity : BaseActivity() {
 
     }
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        if(savedInstanceState != null){
+            player = savedInstanceState.getParcelable(EXTRA_PLAYER)
+        }
+    }
+
     fun onBallerClicked(view : View){
-        ballerBtn.isChecked = false
+        beginnerBtn.isChecked = false
         player.skill = "Baller"
     }
     fun onBeginnerClicked(view : View){
-        beginnerBtn.isChecked = false
+        ballerBtn.isChecked = false
         player.skill = "Beginner"
     }
 
